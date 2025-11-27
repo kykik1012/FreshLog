@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('satuan');
             $table->integer('is_delete')->default(0);
             $table->foreignId('kategori_item_id')->nullable()->constrained('kategori_items')->nullOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('kuantitas')->default(0);
             $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
             $table->foreignId('lokasi_id')->constrained('lokasis')->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

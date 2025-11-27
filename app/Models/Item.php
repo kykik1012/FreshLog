@@ -3,23 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Item extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'nama_item','satuan','kategori_item_id','user_id','is_delete'
+        'nama_item','satuan','kategori_item_id','is_delete'
     ];
+
+    protected $table = 'items';
 
     public function kategori()
     {
         return $this->belongsTo(KategoriItem::class, 'kategori_item_id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
-    }
+    
 
     public function detailPenyimpanans()
     {
