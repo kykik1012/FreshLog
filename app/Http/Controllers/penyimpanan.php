@@ -14,7 +14,9 @@ class penyimpanan extends Controller
     // 1. Method CREATE (Form Tambah)
     public function create()
     {
-        $item = Item::all();
+        $item = Item::where('user_id', Auth::id())
+                    ->where('is_delete', 0)
+                    ->get();
         $lokasi = Lokasi::all();
 
         // Tidak mengirim $dataEdit karena ini mode tambah
@@ -84,7 +86,9 @@ class penyimpanan extends Controller
     {
         // Kita ubah nama variabel jadi $dataEdit agar View 'TambahMakan' tahu ini mode Edit
         $dataEdit = DetailPenyimpanan::findOrFail($id);
-        $item = Item::all();
+        $item =  Item::where('user_id', Auth::id())
+                    ->where('is_delete', 0)
+                    ->get();
         $lokasi = Lokasi::all();
 
         return view('TambahMakan', compact('dataEdit', 'item', 'lokasi'));

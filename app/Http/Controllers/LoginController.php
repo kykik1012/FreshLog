@@ -10,34 +10,36 @@ use App\Models\User;
 class LoginController extends Controller
 {
     public function show_login(){
-        return view('loginpage');
+        return view('LoginPage'); // Pastikan nama file blade login kamu benar
     }
 
+    // Fungsi ini tidak terlalu diperlukan lagi karena sudah ada di Route::get('/dashboard')
+    // tapi kalau mau dipakai, pastikan view-nya 'beranda'
     public function dashboard(){
-        return view('dashboard');
+        return view('beranda'); 
     }
-
 
     public function login_validate(Request $request)
     {
-
-        $datalog=[
-            'username'=>$request->usernamelgn,
-            'password'=>$request->passwordlgn,
+        $datalog = [
+            'username' => $request->usernamelgn, // Pastikan 'name' di input HTML login adalah 'usernamelgn'
+            'password' => $request->passwordlgn, // Pastikan 'name' di input HTML login adalah 'passwordlgn'
         ];
 
-
         if (Auth::attempt($datalog)){
-            return redirect()->route('dashboard');
-        }
-        else{
-            return redirect()->route('/')->with('error','Login Gagal, Terdapat kesalahan pada username atau password');
+            $request->session()->regenerate(); // Penting untuk keamanan sesi
+            return redirect()->route('dashboard'); // Redirect ke route yang bernama 'dashboard'
+        } else {
+            // Perbaikan: gunakan back() agar kembali ke halaman login, bukan route '/' yang error
+            return back()->withq('error', 'Login Gagal, Terdapat kesalahan pada username atau password');
         }
     }
 
-    public function logout(){
+    public function logout(Request $request){
         Auth::logout();
-        return redirect()->route('/');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
     }
 
 

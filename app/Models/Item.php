@@ -10,7 +10,7 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama_item','satuan','kategori_item_id','is_delete'
+        'nama_item','satuan','kategori_item_id','is_delete','user_id'
     ];
 
     protected $table = 'items';
@@ -25,5 +25,9 @@ class Item extends Model
     public function detailPenyimpanans()
     {
         return $this->hasMany(DetailPenyimpanan::class, 'item_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
