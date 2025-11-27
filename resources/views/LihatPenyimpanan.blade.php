@@ -2,6 +2,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <div class="flex justify-between items-center mb-6">
+        <a href="{{ route('dashboard') }}" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+            </a>
         <h2 class="text-2xl font-bold text-gray-800">Daftar Item</h2>
         <a href="{{ route('penyimpanan.history') }}" 
            class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-lg transition duration-300 mb-3 border border-gray-200">
