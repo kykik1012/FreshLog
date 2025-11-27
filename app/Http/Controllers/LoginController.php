@@ -27,7 +27,7 @@ class LoginController extends Controller
         ];
 
         if (Auth::attempt($datalog)){
-            $request->session()->regenerate(); // Penting untuk keamanan sesi
+            
             return redirect()->route('dashboard'); // Redirect ke route yang bernama 'dashboard'
         } else {
             // Perbaikan: gunakan back() agar kembali ke halaman login, bukan route '/' yang error

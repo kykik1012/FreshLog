@@ -1,6 +1,21 @@
 <div class="space-y-4">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Daftar Item</h2>
+        <a href="{{ route('penyimpanan.history') }}" 
+           class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-lg transition duration-300 mb-3 border border-gray-200">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            Riwayat
+        </a>
+        <a href="{{ route('get.item') }}" 
+        class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-3">
+            + Tambah Penyimpanan Baru
+        </a>
+    </div>
+
     @foreach($penyimpanans as $data)
         <div class="flex justify-between items-center bg-red-50 p-4 rounded-xl border border-red-100">
             

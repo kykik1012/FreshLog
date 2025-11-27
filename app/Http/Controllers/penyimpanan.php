@@ -123,21 +123,33 @@ class penyimpanan extends Controller
     }
 
     public function destroy($id)
-{
-    // 1. Cari data berdasarkan ID
-    $penyimpanan = DetailPenyimpanan::findOrFail($id);
+    {
+        // 1. Cari data berdasarkan ID
+        $penyimpanan = DetailPenyimpanan::findOrFail($id);
 
-    // 2. JANGAN gunakan delete(), tapi gunakan update()
-    // $penyimpanan->delete(); <--- Hapus baris ini
+        // 2. JANGAN gunakan delete(), tapi gunakan update()
+        // $penyimpanan->delete(); <--- Hapus baris ini
 
-    // Ubah statusnya saja
-    $penyimpanan->update([
-        'status' => 'Dihapus' 
-    ]);
+        // Ubah statusnya saja
+        $penyimpanan->update([
+            'status' => 'Selesai' 
+        ]);
 
-    // 3. Redirect kembali
-    return redirect()->route('penyimpanan.index')->with('success', 'Item berhasil dihapus (Status diubah).');
-}
+        // 3. Redirect kembali
+        return redirect()->route('penyimpanan.index')->with('success', 'Item berhasil dihapus (Status diubah).');
+    }
+
+    public function history()
+    {
+        // Ambil data yang statusnya BUKAN 'Layak Makan' (artinya sudah dihapus/habis)
+        $histories = DetailPenyimpanan::with(['item', 'lokasi'])
+            ->where('user_id', Auth::id())
+            ->where('status', '!=', 'Layak Makan') 
+            ->orderBy('updated_at', 'desc') // Urutkan dari yang terakhir diubah
+            ->get();
+
+        return view('RiwayatPenyimpanan', compact('histories'));
+    }
 
 
 }

@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/penyimpanan/{id}/edit', [penyimpanan::class, 'edit'])->name('penyimpanan.edit');
     Route::put('/penyimpanan/{id}', [penyimpanan::class, 'update'])->name('penyimpanan.update');
     Route::delete('/penyimpanan/{id}', [penyimpanan::class, 'destroy'])->name('penyimpanan.destroy');
+    Route::get('/penyimpanan/riwayat', [penyimpanan::class, 'history'])->name('penyimpanan.history');
 
     Route::get('/items', [ItemController::class, 'index'])->name('item.index');
     Route::get('/Riwayat_items', [ItemController::class, 'riwayat_index'])->name('item.riwayat_index');

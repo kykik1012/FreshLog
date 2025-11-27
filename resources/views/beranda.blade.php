@@ -19,10 +19,7 @@
             Lihat Semua Item
         </a>
 
-        <a href="{{ route('get.item') }}" 
-        class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-3">
-            + Tambah Item Baru
-        </a>
+        
         
         <a href="{{ route('penyimpanan.index') }}" 
         class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
