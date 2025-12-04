@@ -1,34 +1,113 @@
-<div>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    <div class="flex justify-end p-4">
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="text-red-500 hover:text-red-700 font-bold">
-                Logout
-            </button>
+@extends('Layout.app')
+
+
+@section('content')
+
+
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-secondary">Halo, {{ Auth::user()->name }}! 👋</h1>
+            <p class="text-gray-500 text-sm">Ayo cek isi dapurmu agar tetap segar.</p>
+        </div>
+       
+        <form action="{{ route('item.index') }}" method="GET" class="relative w-full md:w-80">
+            <input type="text" name="search" placeholder="Cari bahan makanan..."
+                class="w-full pl-12 pr-4 py-3 rounded-2xl border-none bg-white shadow-sm focus:ring-2 focus:ring-primary focus:outline-none text-sm text-darkGrey placeholder-gray-400">
+            <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
         </form>
     </div>
 
-    <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
-        <h1 class="text-2xl font-bold mb-4">Selamat Datang, {{ Auth::user()->username ?? 'User' }}!</h1> 
-        <p class="mb-6 text-gray-600">Kelola stok barang kamu di sini.</p>
 
-        <a href="{{ route('item.index') }}" 
-        class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-3">
-            Lihat Semua Item
-        </a>
+    <div class="mb-10">
+        <div class="flex justify-between items-end mb-4 px-1">
+            <h2 class="text-lg font-bold text-secondary">Lokasi Penyimpanan</h2>
+            <a href="{{ route('penyimpanan.index') }}" class="text-xs font-semibold text-primary bg-secondary px-3 py-1 rounded-full hover:bg-opacity-90 transition">Lihat Semua</a>
+        </div>
 
-        <a href="{{ route('Show.Profile') }}" 
-        class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-3">
-            Profile
-        </a>
 
-        
-        
-        <a href="{{ route('penyimpanan.index') }}" 
-        class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
-            Lihat Penyimpanan
-        </a>
+        <div class="flex overflow-x-auto space-x-4 pb-4 hide-scrollbar snap-x">
+           
+            <a href="{{ route('penyimpanan.index', ['lokasi' => 'kulkas']) }}" class="snap-start min-w-[140px] bg-white p-4 rounded-3xl shadow-sm border border-transparent hover:border-primary transition group cursor-pointer flex flex-col items-center text-center">
+                <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-secondary transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <h3 class="font-semibold text-darkGrey text-sm">Kulkas</h3>
+                <span class="text-xs text-gray-400 mt-1">12 Item</span>
+            </a>
+
+
+            <a href="#" class="snap-start min-w-[140px] bg-white p-4 rounded-3xl shadow-sm border border-transparent hover:border-primary transition group cursor-pointer flex flex-col items-center text-center">
+                <div class="w-12 h-12 bg-cyan-50 text-cyan-500 rounded-full flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-secondary transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <h3 class="font-semibold text-darkGrey text-sm">Freezer</h3>
+                <span class="text-xs text-gray-400 mt-1">5 Item</span>
+            </a>
+
+
+            <a href="#" class="snap-start min-w-[140px] bg-white p-4 rounded-3xl shadow-sm border border-transparent hover:border-primary transition group cursor-pointer flex flex-col items-center text-center">
+                <div class="w-12 h-12 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-secondary transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <h3 class="font-semibold text-darkGrey text-sm">Rak Bumbu</h3>
+                <span class="text-xs text-gray-400 mt-1">24 Item</span>
+            </a>
+
+
+            <a href="#" class="snap-start min-w-[140px] bg-white p-4 rounded-3xl shadow-sm border border-transparent hover:border-primary transition group cursor-pointer flex flex-col items-center text-center">
+                <div class="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-secondary transition">
+                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                </div>
+                <h3 class="font-semibold text-darkGrey text-sm">Keranjang</h3>
+                <span class="text-xs text-gray-400 mt-1">8 Item</span>
+            </a>
+        </div>
     </div>
-</div>
+
+
+    <div>
+        <h2 class="text-lg font-bold text-secondary mb-4 px-1 flex items-center gap-2">
+            Perlu Perhatian
+            <span class="bg-danger text-white text-[10px] px-2 py-0.5 rounded-full">Darurat</span>
+        </h2>
+
+
+        <div class="space-y-3">
+            <div class="flex items-center justify-between bg-white border-l-4 border-danger p-4 rounded-xl shadow-sm hover:shadow-md transition">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-red-50 flex items-center justify-center text-danger">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-darkGrey">Susu UHT Full Cream</h4>
+                        <p class="text-xs text-danger font-medium">Kadaluarsa dalam 2 hari</p>
+                    </div>
+                </div>
+                <button class="text-gray-400 hover:text-secondary">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+
+
+            <div class="flex items-center justify-between bg-white border-l-4 border-danger p-4 rounded-xl shadow-sm hover:shadow-md transition">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-red-50 flex items-center justify-center text-danger">
+                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-darkGrey">Roti Tawar</h4>
+                        <p class="text-xs text-danger font-medium">Kadaluarsa besok!</p>
+                    </div>
+                </div>
+                <button class="text-gray-400 hover:text-secondary">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+@endsection
+

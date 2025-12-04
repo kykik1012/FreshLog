@@ -1,181 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-        <style>
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            margin: 0;
-            font-family: sans-serif;
-            background: #000;
-        }
-
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-
-        .background {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 20% 20%, #ff7a18, transparent 60%),
-                        radial-gradient(circle at 80% 80%, #18b0ff, transparent 60%);
-            filter: blur(100px);
-            opacity: 0.25;
-        }
-
-
-        .container {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-
-        .wrap {
-            width: 100%;
-            max-width: 460px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: 35px;
-            animation: fadeUp 0.7s ease;
-            text-align: center;
-        }
-
-
-        h2 {
-            color: #fff;
-            margin-bottom: 10px;
-            font-size: 32px;
-        }
-
-
-        p {
-            color: #fff;
-            opacity: 0.7;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-
-
-        h5 {
-            color: #fff;
-            text-align: left;
-            margin-left: 5%;
-            margin-bottom:3px;
-            margin-top:1px;
-            font-size: 10px;
-        }
-
-
-        input {
-            width: 90%;
-            padding: 14px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            border: none;
-            outline: none;
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            font-size: 15px;
-        }
-
-
-        .btn-register {
-            width: 90%;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            background: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-
-        .btn-register:hover {
-            background: #dcdcdc;
-        }
-
-
-        .btn-back {
-            width: 90%;
-            padding: 12px;
-            border-radius: 12px;
-            background: transparent;
-            font-size: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.25);
-            color: white;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+    <title>Daftar Akun - FreshLog</title>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#AFEE00',   /* Lime Green */
+                        secondary: '#003539', /* Deep Teal */
+                        bgLight: '#F8FAFC',   /* Off-White */
+                        darkGrey: '#1E293B',  /* Text Color */
+                        danger: '#F87171',    /* Soft Red */
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
             }
         }
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
     </style>
 </head>
+<body class="bg-bgLight text-darkGrey antialiased">
 
-<body>
-    <div class="background"></div>
 
-    <div class="container">
-        <div class="wrap">
-
-            <h2>Register</h2>
-            <p>Yuk mulai buat akunmu sekarang</p>
-
-            <form action="{{ route('register.validate') }}" method="POST">
-                @csrf
-
-                <h5>Nama lengkap</h5>
-                <input type="text" name="namereg" placeholder="Nama Lengkap Anda" value="{{ old('namereg') }}" required>
-                @error('namereg') <span class="error-text">{{ $message }}</span> @enderror
-
-                <h5>Username</h5>
-                <input type="text" name="usernamereg" placeholder="Username Harus Unik" value="{{ old('usernamereg') }}" autocomplete="off" required>
-                @error('usernamereg') <span class="error-text">{{ $message }}</span> @enderror
-               
-                <h5>Email</h5>
-                <input type="email" name="emailreg" placeholder="Pastikan Email Aktif" value="{{ old('emailreg') }}" required>
-                @error('emailreg') <span class="error-text">{{ $message }}</span> @enderror
-               
-                <h5>Password</h5>
-                <input type="password" name="passwordreg" placeholder="Minimal 8 karakter" autocomplete="new-password" required>
-                @error('passwordreg') <span class="error-text">{{ $message }}</span> @enderror
-               
-                <h5>Konfirmasi Password</h5>
-                <input type="password" name="conpasswordreg" placeholder="Ketik Ulang Password" required>
-                @error('conpasswordreg') <span class="error-text">{{ $message }}</span> @enderror
-               
-                <button type="submit" class="btn-register">Register</button>
-            </form>
-
-            <button class="btn-back" onclick="window.location.href='{{ route('login') }}'">Back to Login</button>
-
+    <div class="min-h-screen flex flex-row-reverse">
+       
+        <div class="hidden lg:flex w-1/2 bg-secondary relative overflow-hidden items-center justify-center p-12">
+            <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary rounded-full blur-[150px] opacity-10"></div>
+            <div class="absolute top-10 right-10 w-32 h-32 bg-teal-600 rounded-full blur-[60px] opacity-40 animate-pulse"></div>
+           
+            <div class="relative z-10 text-center">
+                <div class="flex items-center justify-center gap-3 mb-6">
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                    <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-secondary font-bold text-3xl shadow-[0_0_20px_rgba(175,238,0,0.4)]">
+                        F
+                    </div>
+                    <h1 class="text-4xl font-bold text-white tracking-tight">FreshLog.</h1>
+                </div>
+                </div>
+                <h2 class="text-4xl font-bold text-white mb-4 leading-tight">Mulai Gabung</h2>
+                <p class="text-gray-300 text-lg max-w-md mx-auto">Pantau stok lebih mudah, kurangi limbah, dan hidup lebih hemat.</p>
+            </div>
         </div>
+
+
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-bgLight overflow-y-auto">
+            <div class="w-full max-w-lg">
+               
+                <div class="lg:hidden text-center mb-8">
+                    <div class="flex items-center justify-center gap-2 mb-3">
+                        <div class="w-10 h-10 bg-secondary rounded-xl flex items-center justify-center text-primary font-bold text-xl">F</div>
+                        <h1 class="text-2xl font-bold text-secondary">FreshLog</h1>
+                    </div>
+                </div>
+
+
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-secondary mb-2">Buat Akun Baru</h2>
+                    <p class="text-gray-500">Untuk memulai. Silakan lengkapi data berikut.</p>
+                </div>
+
+
+                <form action="{{ route('register.validate') }}" method="POST" class="space-y-5">
+                    @csrf
+                   
+                    <div>
+                        <label class="block text-sm font-semibold text-secondary mb-2">Nama Lengkap</label>
+                        <input type="text" name="namereg" value="{{ old('namereg') }}" placeholder="Contoh: Dennise Surya Anggara" required
+                            class="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-darkGrey font-medium placeholder-gray-400">
+                        @error('namereg') <p class="text-xs text-danger mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold text-secondary mb-2">Username</label>
+                        <input type="text" name="usernamereg" value="{{ old('usernamereg') }}" placeholder="Username harus unik (tanpa spasi)" autocomplete="off" required
+                            class="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-darkGrey font-medium placeholder-gray-400">
+                        @error('usernamereg') <p class="text-xs text-danger mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+
+                    <div>
+                        <label class="block text-sm font-semibold text-secondary mb-2">Email Address</label>
+                        <input type="email" name="emailreg" value="{{ old('emailreg') }}" placeholder="Pastikan email benar dan aktif" required
+                            class="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-darkGrey font-medium placeholder-gray-400">
+                        @error('emailreg') <p class="text-xs text-danger mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-secondary mb-2">Password</label>
+                            <input type="password" name="passwordreg" placeholder="Min. 8 karakter" autocomplete="new-password" required
+                                class="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-darkGrey font-medium placeholder-gray-400">
+                            @error('passwordreg') <p class="text-xs text-danger mt-1">{{ $message }}</p> @enderror
+                        </div>
+
+
+                        <div>
+                            <label class="block text-sm font-semibold text-secondary mb-2">Ulangi Password</label>
+                            <input type="password" name="conpasswordreg" placeholder="Ketik ulang password" required
+                                class="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-darkGrey font-medium placeholder-gray-400">
+                            @error('conpasswordreg') <p class="text-xs text-danger mt-1">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full py-4 px-6 rounded-xl bg-secondary text-primary font-bold text-lg hover:bg-opacity-95 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 transform shadow-md">
+                        Daftar Sekarang
+                    </button>
+
+
+                    <p class="text-center text-gray-500 text-sm mt-6">
+                        Sudah punya akun?
+                        <a href="{{ route('login') }}" class="font-bold text-secondary hover:text-primary transition no-underline hover:underline">
+                            Login di sini
+                        </a>
+                    </p>
+                </form>
+            </div>
+        </div>
+       
     </div>
+
+
 </body>
 </html>

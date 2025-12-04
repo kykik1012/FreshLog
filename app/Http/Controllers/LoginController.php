@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -19,17 +17,24 @@ class LoginController extends Controller
 
     public function login_validate(Request $request)
     {
+        // 1. Validasi Input
+        $request->validate([
+            'usernamelgn' => 'required',
+            'passwordlgn' => 'required'
+        ]);
+
         $datalog = [
             'username' => $request->usernamelgn, 
             'password' => $request->passwordlgn,
         ];
 
+        // 2. Cek Username & Password (Login Biasa)
         if (Auth::attempt($datalog)){
-            
+            $request->session()->regenerate();
+            // Langsung masuk dashboard tanpa OTP
             return redirect()->route('dashboard');
         } else {
-
-            return back()->withq('error', 'Login Gagal, Terdapat kesalahan pada username atau password');
+            return back()->with('error', 'Login Gagal, username atau password salah.');
         }
     }
 
@@ -39,6 +44,4 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('login');
     }
-
-
 }

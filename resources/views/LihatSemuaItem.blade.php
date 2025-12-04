@@ -1,68 +1,63 @@
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-<div class="max-w-4xl mx-auto">
-    
-    <div class="flex justify-between items-center mb-6">
-        <a href="{{ route('dashboard') }}" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                </svg>
-            </a>
-        <h2 class="text-2xl font-bold text-gray-800">Daftar Item</h2>
-        <a href="{{ route('item.tambah') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm text-sm font-medium">
-            + Tambah Item
-        </a>
-        <a href="{{ route('item.riwayat_index') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm text-sm font-medium">
-            Riwayat Item
-        </a>
+@extends('layout.app')
+
+
+@section('content')
+   
+    <div class="flex items-center gap-3 mb-6">
+        <h1 class="text-2xl font-bold text-secondary">Makanan yang Kini Anda Miliki</h1>
     </div>
 
-
-    <div class="space-y-4">
-        
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+       
         @forelse($items as $item)
-            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition duration-200">
-                
-                <div>
-                    <h3 class="text-gray-800 font-medium text-lg">
-                        {{ $item->nama_item }}
-                    </h3>
-                    
-                    <p class="text-gray-500 text-sm mt-1">
-                        {{ $item->kategori->nama_kategori ?? 'Kategori #' . $item->kategori_item_id }} 
-                        &bull; 
-                        <span class="text-gray-600">{{ $item->satuan }}</span>
-                    </p>
-                </div>
+        <div class="bg-white rounded-3xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-lg transition duration-300 relative group border border-transparent hover:border-primary">
+           
+            <div class="absolute top-4 right-4 z-10">
+                <button class="text-gray-300 hover:text-secondary transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+                </button>
+            </div>
 
-                <div class="flex items-center gap-3">
-                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold shadow-sm border border-green-200">
-                        Aktif
+
+            <div class="h-32 w-full bg-gray-50 rounded-2xl mb-3 flex items-center justify-center overflow-hidden relative">
+                @if($item->foto)
+                    {{-- PERBAIKAN DISINI: Menambahkan folder 'item_photo/' --}}
+                    <img src="{{ asset('storage/item_photo/' . $item->foto) }}" class="w-full h-full object-cover">
+                @else
+                    {{-- Placeholder jika tidak ada foto --}}
+                    <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                @endif
+               
+                <span class="absolute bottom-2 left-2 px-2 py-1 rounded-lg text-[10px] font-bold text-secondary bg-primary">
+                    Aman
+                </span>
+            </div>
+
+
+            <div>
+                <h3 class="font-bold text-darkGrey text-base truncate">{{ $item->nama_item }}</h3>
+                <p class="text-gray-400 text-xs mb-3">{{ $item->kategoriItem->nama_kategori ?? 'Umum' }}</p>
+                {{-- Catatan: Pastikan nama relasi di Model Item adalah 'kategoriItem' atau 'kategori' --}}
+               
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-semibold text-secondary bg-gray-100 px-3 py-1 rounded-full">
+                        {{ $item->stok ?? 0 }} {{ $item->satuan ?? 'Pcs' }}
                     </span>
-
-                    <div class="flex items-center border-l border-gray-200 pl-3 gap-2">
-                        
-                        <a href="{{ route('item.edit', $item->id) }}" class="p-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition border border-gray-200 shadow-sm group" title="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 group-hover:scale-110 transition-transform">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                            </svg>
-                        </a>
-
-                        <form action="{{ route('item.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus {{ $item->nama_item }}?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="p-2 bg-white text-red-600 rounded-lg hover:bg-red-50 transition border border-gray-200 shadow-sm group" title="Hapus">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 group-hover:scale-110 transition-transform">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
+        </div>
         @empty
-            <div class="text-center py-10 text-gray-500 bg-white rounded-xl border border-gray-200">
-                Belum ada item yang terdaftar.
+            <div class="col-span-full text-center py-20">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                     <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                </div>
+                <h3 class="text-gray-800 font-bold">Belum ada barang</h3>
+                <p class="text-gray-400 text-sm">Tekan tombol (+) untuk mulai mencatat.</p>
             </div>
         @endforelse
+
+
     </div>
-</div>
+
+
+@endsection

@@ -7,34 +7,43 @@ use App\Http\Controllers\penyimpanan;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LupaPasswordController;
 
+// === LOGIN (Sekarang tanpa OTP) ===
 Route::get('/', [LoginController::class, 'show_login'])->name('login'); 
+Route::post('/login-process', [LoginController::class, 'login_validate'])->name('login.validate');
 
+// === REGISTER (Sekarang ada OTP) ===
 Route::get('/register', [RegisterController::class, 'show_register'])->name('register');
 Route::post('/register-process', [RegisterController::class, 'register_validate'])->name('register.validate');
 
-// Proses Login (Action dari Form Login)
-Route::post('/login-process', [LoginController::class, 'login_validate'])->name('login.validate');
+// === Route OTP (Dipindahkan ke RegisterController) ===
+Route::get('/otp-verification', [RegisterController::class, 'show_otp_form'])->name('otp.form');
+Route::post('/otp-verification', [RegisterController::class, 'verify_otp'])->name('otp.verify');
 
-// (Harus Login dulu bang AOWKOAWKOAWKAOWKK ) ---
+// OTP PASSWORD
+Route::get('/forgot-password', [LupaPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [LupaPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+Route::get('/forgot-password/otp', [LupaPasswordController::class, 'showOtpForm'])->name('password.otp');
+Route::post('/forgot-password/otp', [LupaPasswordController::class, 'verifyOtp'])->name('password.verify');
+
+Route::get('/reset-password', [LupaPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword'])->name('password.update');
+
+// === Middleware Auth ===
 Route::middleware(['auth'])->group(function () {
     
-    // Route Dashboard/Beranda
-    Route::get('/dashboard', function () {
-        return view('beranda'); 
-    })->name('dashboard');
-
-    // Route Logout
+    Route::get('/dashboard', [LoginController::class, 'dashboard'])->name('dashboard'); // Saya rapikan sedikit
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-        Route::get('/ShowProfile', [ProfileController::class, 'show_profile'])-> name('Show.Profile');
+    Route::get('/ShowProfile', [ProfileController::class, 'show_profile'])-> name('Show.Profile');
     Route::get('/Edit-Profile', [ProfileController::class, 'show_edit'])-> name('Edit-Profile');
     Route::post('/dashboard/{username}/edit', [ProfileController::class, 'edited'])->name('Edit-Profile');
     Route::get('/secure', [ProfileController::class, 'show_secure'])-> name('secure');
     Route::post('change-password', [ProfileController::class, 'change_password'])-> name('change-password');
 
-
-    // === Route Inventory Kamu (Semua dipindah ke sini) ===
+    // Route Inventory Kamu
     Route::get('/penyimpanan', [penyimpanan::class, 'index'])->name('penyimpanan.index');
     Route::get('/ambil-item', [penyimpanan::class, 'create'])->name('get.item');
     Route::post('/simpan-penyimpanan', [penyimpanan::class, 'store'])->name('penyimpanan.store');
@@ -54,11 +63,3 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tambah-item', [KategoriController::class, 'create'])->name('item.tambah');
     Route::post('/simpan-item', [ItemController::class, 'store'])->name('item.store');
 });
-
-
-
-
-
-
-
-

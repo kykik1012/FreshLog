@@ -1,108 +1,112 @@
-<div class="max-w-4xl mx-auto">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+@extends('layout.app')
 
-    <div class="flex justify-between items-center mb-6">
-        <div class="flex items-center gap-4">
-            <a href="{{ route('dashboard') }}" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                </svg>
-            </a>
-            <h2 class="text-2xl font-bold text-gray-800">Daftar Penyimpanan</h2>
+
+@section('content')
+
+
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-secondary">Daftar Penyimpanan</h1>
+            <p class="text-gray-500 text-sm">Kelola stok bahan makanan di berbagai lokasi.</p>
         </div>
-
-        <div class="flex gap-2">
-            <a href="{{ route('get.item') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm text-sm font-medium flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                Tambah Penyimpanan
-            </a>
-            <a href="{{ route('penyimpanan.history') }}" class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition shadow-sm text-sm font-medium flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
+       
+        <div class="flex gap-3 w-full md:w-auto">
+            <a href="{{ route('penyimpanan.history') }}" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-gray-200 bg-white text-darkGrey hover:bg-gray-50 transition font-medium shadow-sm">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 Riwayat
             </a>
+
+
+            <a href="{{ route('get.item') }}" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-secondary font-bold hover:shadow-[0_0_15px_rgba(175,238,0,0.4)] transition transform hover:-translate-y-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Tambah Stok
+            </a>
         </div>
     </div>
 
-    {{-- LIST CONTENT --}}
-    <div class="space-y-4">
+
+    <div class="flex gap-2 mb-6 overflow-x-auto hide-scrollbar pb-2">
+        <button class="px-4 py-2 rounded-full bg-secondary text-primary text-xs font-semibold whitespace-nowrap shadow-md">Semua Lokasi</button>
+        <button class="px-4 py-2 rounded-full bg-white text-gray-500 text-xs font-medium border border-gray-100 whitespace-nowrap hover:bg-gray-50">Kulkas</button>
+        <button class="px-4 py-2 rounded-full bg-white text-gray-500 text-xs font-medium border border-gray-100 whitespace-nowrap hover:bg-gray-50">Freezer</button>
+        <button class="px-4 py-2 rounded-full bg-white text-gray-500 text-xs font-medium border border-gray-100 whitespace-nowrap hover:bg-gray-50">Rak Bumbu</button>
+    </div>
+
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @forelse($penyimpanans as $data)
-            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition duration-200">
-        
-        {{-- Bagian Kiri: Gambar & Info --}}
-        <div class="flex items-center gap-4">
-            {{-- Menampilkan Gambar --}}
-            <div class="w-16 h-16 flex-shrink-0">
-                @if($data->foto)
-                    <img src="{{ asset('storage/' . $data->foto) }}" alt="Foto" class="w-full h-full object-cover rounded-lg border border-gray-100">
-                @else
-                    {{-- Placeholder jika tidak ada foto --}}
-                    <div class="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                        </svg>
-                    </div>
-                @endif
-            </div>
-
-            {{-- Info Text --}}
-            <div>
-                <h3 class="text-gray-800 font-medium text-lg">
-                    {{ $data->item->nama_item ?? 'Item tidak ditemukan' }}
-                </h3>
-                
-                <p class="text-gray-500 text-sm mt-1">
-                    {{ $data->lokasi->nama_lokasi ?? '-' }} 
-                    &bull; 
-                    <span class="text-gray-600 font-medium">{{ $data->kuantitas }} {{ $data->item->satuan ?? '' }}</span>
-                </p>
-            </div>
-        </div>
-
-        {{-- Bagian Kanan: Badge & Action Buttons (Tetap sama seperti kodemu) --}}
-        <div class="flex items-center gap-3">
-                
-                {{-- Badge Status --}}
-                <span class="{{ $data->badge_color }} px-3 py-1 rounded-full text-sm font-semibold shadow-sm">
-                    @if($data->sisa_hari_angka < 0)
-                        Kadaluarsa
-                    @elseif($data->sisa_hari_angka == 0)
-                        Hari ini
+            <div class="group bg-white rounded-3xl p-4 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-transparent hover:border-primary/50 transition-all duration-300 relative">
+               
+                <div class="h-40 w-full bg-gray-50 rounded-2xl mb-4 overflow-hidden relative flex items-center justify-center">
+                    @if($data->foto)
+                        <img src="{{ asset('storage/' . $data->foto) }}" alt="{{ $data->item->nama_item }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     @else
-                        {{ $data->sisa_hari_angka }} hari
+                        <div class="text-gray-300">
+                            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
                     @endif
-                </span>
 
-                {{-- ACTION BUTTONS (Edit & Delete) --}}
-                <div class="flex items-center border-l border-red-200 pl-3 gap-2">
-                    
-                    {{-- Tombol Edit --}}
-                    <a href="{{ route('penyimpanan.edit', $data->id) }}" class="p-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition border border-gray-200 shadow-sm" title="Edit">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>
-                    </a>
 
-                    <form action="{{ route('penyimpanan.destroy', $data->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus item ini?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="p-2 bg-white text-red-600 rounded-lg hover:bg-red-50 transition border border-gray-200 shadow-sm" title="Hapus">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                            </svg>
-                        </button>
-                    </form>
+                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[10px] font-bold text-secondary shadow-sm flex items-center gap-1">
+                        <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        {{ $data->lokasi->nama_lokasi ?? 'Umum' }}
+                    </div>
+                </div>
+
+
+                <div class="px-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="font-bold text-darkGrey text-lg leading-tight line-clamp-1">{{ $data->item->nama_item ?? 'Item tidak ditemukan' }}</h3>
+                            <p class="text-xs text-gray-400 mt-0.5">Exp: {{ \Carbon\Carbon::parse($data->tanggal_kadaluarsa)->format('d M Y') }}</p>
+                        </div>
+                       
+                        <div class="flex gap-2">
+                             <a href="{{ route('penyimpanan.edit', $data->id) }}" class="text-gray-300 hover:text-secondary transition" title="Edit">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                             </a>
+                             <form action="{{ route('penyimpanan.destroy', $data->id) }}" method="POST" onsubmit="return confirm('Hapus item ini?');">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="text-gray-300 hover:text-danger transition" title="Hapus">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                             </form>
+                        </div>
+                    </div>
+
+
+                    <div class="mt-4">
+                        <div class="flex justify-between items-end mb-1">
+                            <span class="text-2xl font-bold text-secondary">{{ $data->kuantitas }} <span class="text-xs font-normal text-gray-400">{{ $data->item->satuan ?? 'Unit' }}</span></span>
+                           
+                            @php
+                                $sisa = $data->sisa_hari_angka;
+                                $badgeColor = $sisa < 0 ? 'bg-red-100 text-red-600' : ($sisa < 7 ? 'bg-orange-100 text-orange-600' : 'bg-primary text-secondary');
+                                $statusText = $sisa < 0 ? 'Kadaluarsa' : ($sisa == 0 ? 'Hari Ini' : $sisa . ' Hari Lagi');
+                            @endphp
+                            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold {{ $badgeColor }}">
+                                {{ $statusText }}
+                            </span>
+                        </div>
+                       
+                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                            <div class="h-1.5 rounded-full {{ $sisa < 7 ? 'bg-danger' : 'bg-primary' }}" style="width: {{ max(5, min(100, $sisa * 10)) }}%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-    </div>
         @empty
-            <div class="text-center py-10 text-gray-500 bg-white rounded-xl border border-gray-200 shadow-sm">
-                Belum ada data penyimpanan.
+            <div class="col-span-full flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
+                <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-4 animate-pulse">
+                    <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                </div>
+                <h3 class="text-lg font-bold text-secondary">Penyimpanan Kosong</h3>
+                <p class="text-gray-400 text-sm mt-1 max-w-xs text-center">Belum ada barang yang disimpan. Yuk, mulai isi stok dapurmu!</p>
+                <a href="{{ route('get.item') }}" class="mt-6 px-6 py-2 bg-secondary text-primary font-bold rounded-full text-sm hover:bg-opacity-90 transition">
+                    + Tambah Data
+                </a>
             </div>
         @endforelse
     </div>
-</div>
+
+@endsection
