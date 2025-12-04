@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\penyimpanan;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', [LoginController::class, 'show_login'])->name('login'); 
 
@@ -25,6 +26,13 @@ Route::middleware(['auth'])->group(function () {
 
     // Route Logout
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+        Route::get('/ShowProfile', [ProfileController::class, 'show_profile'])-> name('Show.Profile');
+    Route::get('/Edit-Profile', [ProfileController::class, 'show_edit'])-> name('Edit-Profile');
+    Route::post('/dashboard/{username}/edit', [ProfileController::class, 'edited'])->name('Edit-Profile');
+    Route::get('/secure', [ProfileController::class, 'show_secure'])-> name('secure');
+    Route::post('change-password', [ProfileController::class, 'change_password'])-> name('change-password');
+
 
     // === Route Inventory Kamu (Semua dipindah ke sini) ===
     Route::get('/penyimpanan', [penyimpanan::class, 'index'])->name('penyimpanan.index');
