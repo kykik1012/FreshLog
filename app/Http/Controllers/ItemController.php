@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\KategoriItem;
-use Illuminate\Support\Facades\Auth; // <--- WAJIB DITAMBAHKAN
+use Illuminate\Support\Facades\Auth; 
 
 class ItemController extends Controller
 {
     public function index()
     {
-        // UBAH INI: Tambahkan where('user_id', Auth::id())
-        // Agar user hanya melihat item miliknya sendiri
+        // buat liat itemnya sendiri ini wok
         $items = Item::where('user_id', Auth::id())
                      ->where('is_delete', 0)
                      ->get();
@@ -22,7 +21,7 @@ class ItemController extends Controller
 
     public function riwayat_index()
     {
-        // UBAH INI JUGA: Filter berdasarkan user login
+
         $items = Item::where('user_id', Auth::id())
                      ->where('is_delete', 1)
                      ->get();
@@ -42,19 +41,15 @@ class ItemController extends Controller
             'nama_item' => $request->nama_item,
             'satuan' => $request->satuan,
             'kategori_item_id' => $request->kategori_item_id,
-            'user_id' => Auth::id(), // <--- TAMBAHKAN INI (Simpan ID User yang login)
+            'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('item.tambah')->with('success', 'Data berhasil disimpan!');
+        return redirect()->route('item.index')->with('success', 'Data berhasil disimpan!');
     }
 
     public function edit($id)
     {
-        // UBAH findOrFail biasa MENJADI filter user dulu (Keamanan)
-        // Agar user A tidak bisa edit item milik User B lewat URL
-        $itemEdit = Item::where('user_id', Auth::id())
-                    ->where('is_delete', 0)
-                    ->get();
+        $itemEdit = Item::find($id);
 
         $kategori = KategoriItem::all(); 
 
@@ -69,14 +64,12 @@ class ItemController extends Controller
             'kategori_item_id' => 'required|exists:kategori_items,id',
         ]);
 
-        // Gunakan filter user_id untuk keamanan
         $item = Item::where('user_id', Auth::id())->findOrFail($id);
 
         $item->update([
             'nama_item' => $request->nama_item,
             'satuan' => $request->satuan,
             'kategori_item_id' => $request->kategori_item_id,
-            // user_id tidak perlu di-update karena pemiliknya tetap sama
         ]);
 
         return redirect()->route('item.index')->with('success', 'Item berhasil diperbarui!');
@@ -84,7 +77,6 @@ class ItemController extends Controller
 
     public function destroy($id)
     {
-        // Gunakan filter user_id
         $item = Item::where('user_id', Auth::id())->findOrFail($id);
 
         $item->update([
@@ -96,7 +88,6 @@ class ItemController extends Controller
     
     public function Restore($id)
     {
-        // Gunakan filter user_id
         $item = Item::where('user_id', Auth::id())->findOrFail($id);
 
         $item->update([

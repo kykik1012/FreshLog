@@ -7,11 +7,12 @@ use App\Models\Lokasi;
 use App\Models\Item;
 use App\Models\DetailPenyimpanan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class penyimpanan extends Controller
 {
-    // 1. Method CREATE (Form Tambah)
+
     public function create()
     {
         $item = Item::where('user_id', Auth::id())
@@ -19,36 +20,40 @@ class penyimpanan extends Controller
                     ->get();
         $lokasi = Lokasi::all();
 
-        // Tidak mengirim $dataEdit karena ini mode tambah
         return view('TambahMakan', compact('item','lokasi'));
     }
 
-    // 2. Method STORE (Simpan Data Baru)
     public function store(Request $request)
-    {
-        $request->validate([
-            'kategori_item_id' => 'required|exists:items,id',
-            'lokasi_id'        => 'required|exists:lokasis,id',
-            'tanggal_simpan'   => 'required|date',
-            'tanggal_kadaluarsa' => 'required|date|after_or_equal:tanggal_simpan',
-            'kuantitas'        => 'required|integer|min:1',
-        ]);
+{
+    $request->validate([
+        'kategori_item_id' => 'required|exists:items,id',
+        'lokasi_id'        => 'required|exists:lokasis,id',
+        'tanggal_simpan'   => 'required|date',
+        'tanggal_kadaluarsa' => 'required|date|after_or_equal:tanggal_simpan',
+        'kuantitas'        => 'required|integer|min:1',
+        'foto'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // <--- Validasi Foto
+    ]);
 
-        DetailPenyimpanan::create([
-            'item_id'            => $request->kategori_item_id,
-            'lokasi_id'          => $request->lokasi_id,
-            'tanggal_simpan'     => $request->tanggal_simpan,
-            'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
-            'kuantitas'          => $request->kuantitas,
-            'status'             => 'Layak Makan',
-            'user_id'            => Auth::id() ?? null,
-        ]);
-
-        // Redirect ke halaman List (Index) agar user langsung melihat hasilnya
-        return redirect()->route('penyimpanan.index')->with('success', 'Data penyimpanan berhasil ditambahkan!');
+    // Logika Upload Foto
+    $pathFoto = null;
+    if ($request->hasFile('foto')) {
+        $pathFoto = $request->file('foto')->store('penyimpanan-img', 'public');
     }
 
-    // 3. Method INDEX (Lihat Data)
+    DetailPenyimpanan::create([
+        'item_id'            => $request->kategori_item_id,
+        'lokasi_id'          => $request->lokasi_id,
+        'tanggal_simpan'     => $request->tanggal_simpan,
+        'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
+        'kuantitas'          => $request->kuantitas,
+        'foto'               => $pathFoto, // <--- Simpan path
+        'status'             => 'Layak Makan',
+        'user_id'            => Auth::id() ?? null,
+    ]);
+
+    return redirect()->route('penyimpanan.index')->with('success', 'Data penyimpanan berhasil ditambahkan!');
+}
+
     public function index()
     {
         $penyimpanans = DetailPenyimpanan::with(['item', 'lokasi'])
@@ -81,10 +86,10 @@ class penyimpanan extends Controller
         return view('LihatPenyimpanan', compact('penyimpanans'));
     }
 
-    // 4. Method EDIT (Form Edit) - PERHATIKAN PERUBAHAN DISINI
+
     public function edit($id)
     {
-        // Kita ubah nama variabel jadi $dataEdit agar View 'TambahMakan' tahu ini mode Edit
+
         $dataEdit = DetailPenyimpanan::findOrFail($id);
         $item =  Item::where('user_id', Auth::id())
                     ->where('is_delete', 0)
@@ -94,58 +99,62 @@ class penyimpanan extends Controller
         return view('TambahMakan', compact('dataEdit', 'item', 'lokasi'));
     }
 
-    // 5. Method UPDATE (Simpan Perubahan) - INI BARU
     public function update(Request $request, $id)
-    {
-        // Validasi
-        $request->validate([
-            'kategori_item_id' => 'required|exists:items,id',
-            'lokasi_id'        => 'required|exists:lokasis,id',
-            'tanggal_simpan'   => 'required|date',
-            'tanggal_kadaluarsa' => 'required|date|after_or_equal:tanggal_simpan',
-            'kuantitas'        => 'required|integer|min:1',
-        ]);
+{
+    $request->validate([
+        'kategori_item_id' => 'required|exists:items,id',
+        'lokasi_id'        => 'required|exists:lokasis,id',
+        'tanggal_simpan'   => 'required|date',
+        'tanggal_kadaluarsa' => 'required|date|after_or_equal:tanggal_simpan',
+        'kuantitas'        => 'required|integer|min:1',
+        'foto'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // <--- Validasi Foto
+    ]);
 
-        // Cari data lama
-        $penyimpanan = DetailPenyimpanan::findOrFail($id);
-
-        // Update data
-        $penyimpanan->update([
-            'item_id'            => $request->kategori_item_id,
-            'lokasi_id'          => $request->lokasi_id,
-            'tanggal_simpan'     => $request->tanggal_simpan,
-            'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
-            'kuantitas'          => $request->kuantitas,
-            // Status dan User ID biarkan tetap (tidak diupdate)
-        ]);
-
-        return redirect()->route('penyimpanan.index')->with('success', 'Data berhasil diperbarui!');
+    $penyimpanan = DetailPenyimpanan::findOrFail($id);
+    
+    // Logika Update Foto
+    $pathFoto = $penyimpanan->foto; // Default pakai foto lama
+    
+    if ($request->hasFile('foto')) {
+        // Hapus foto lama jika ada
+        if ($penyimpanan->foto && Storage::disk('public')->exists($penyimpanan->foto)) {
+            Storage::disk('public')->delete($penyimpanan->foto);
+        }
+        // Upload foto baru
+        $pathFoto = $request->file('foto')->store('penyimpanan-img', 'public');
     }
+
+    $penyimpanan->update([
+        'item_id'            => $request->kategori_item_id,
+        'lokasi_id'          => $request->lokasi_id,
+        'tanggal_simpan'     => $request->tanggal_simpan,
+        'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
+        'kuantitas'          => $request->kuantitas,
+        'foto'               => $pathFoto, // <--- Update path
+    ]);
+
+    return redirect()->route('penyimpanan.index')->with('success', 'Data berhasil diperbarui!');
+}
 
     public function destroy($id)
     {
-        // 1. Cari data berdasarkan ID
+
         $penyimpanan = DetailPenyimpanan::findOrFail($id);
 
-        // 2. JANGAN gunakan delete(), tapi gunakan update()
-        // $penyimpanan->delete(); <--- Hapus baris ini
-
-        // Ubah statusnya saja
         $penyimpanan->update([
             'status' => 'Selesai' 
         ]);
 
-        // 3. Redirect kembali
+
         return redirect()->route('penyimpanan.index')->with('success', 'Item berhasil dihapus (Status diubah).');
     }
 
     public function history()
     {
-        // Ambil data yang statusnya BUKAN 'Layak Makan' (artinya sudah dihapus/habis)
         $histories = DetailPenyimpanan::with(['item', 'lokasi'])
             ->where('user_id', Auth::id())
             ->where('status', '!=', 'Layak Makan') 
-            ->orderBy('updated_at', 'desc') // Urutkan dari yang terakhir diubah
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         return view('RiwayatPenyimpanan', compact('histories'));

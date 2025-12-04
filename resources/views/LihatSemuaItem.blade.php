@@ -22,39 +22,31 @@
         @forelse($items as $item)
             <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition duration-200">
                 
-                {{-- BAGIAN KIRI: Info Item --}}
                 <div>
                     <h3 class="text-gray-800 font-medium text-lg">
                         {{ $item->nama_item }}
                     </h3>
                     
                     <p class="text-gray-500 text-sm mt-1">
-                        {{-- Mengambil nama kategori jika ada relasi, jika tidak tampilkan ID --}}
                         {{ $item->kategori->nama_kategori ?? 'Kategori #' . $item->kategori_item_id }} 
                         &bull; 
                         <span class="text-gray-600">{{ $item->satuan }}</span>
                     </p>
                 </div>
 
-                {{-- BAGIAN KANAN: Badge & Tombol --}}
                 <div class="flex items-center gap-3">
-                    
-                    {{-- Badge Status (Statik karena is_delete=0 pasti aktif) --}}
                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold shadow-sm border border-green-200">
                         Aktif
                     </span>
 
-                    {{-- ACTION BUTTONS (Edit & Delete) --}}
                     <div class="flex items-center border-l border-gray-200 pl-3 gap-2">
                         
-                        {{-- Tombol Edit --}}
                         <a href="{{ route('item.edit', $item->id) }}" class="p-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition border border-gray-200 shadow-sm group" title="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 group-hover:scale-110 transition-transform">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                             </svg>
                         </a>
 
-                        {{-- Tombol Delete --}}
                         <form action="{{ route('item.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus {{ $item->nama_item }}?');">
                             @csrf
                             @method('DELETE')

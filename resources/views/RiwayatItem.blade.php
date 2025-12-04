@@ -16,29 +16,24 @@
         @forelse($items as $item)
             <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition duration-200">
                 
-                {{-- BAGIAN KIRI: Info Item --}}
                 <div>
                     <h3 class="text-gray-800 font-medium text-lg">
                         {{ $item->nama_item }}
                     </h3>
                     
                     <p class="text-gray-500 text-sm mt-1">
-                        {{-- Mengambil nama kategori jika ada relasi, jika tidak tampilkan ID --}}
                         {{ $item->kategori->nama_kategori ?? 'Kategori #' . $item->kategori_item_id }} 
                         &bull; 
                         <span class="text-gray-600">{{ $item->satuan }}</span>
                     </p>
                 </div>
 
-                {{-- BAGIAN KANAN: Badge & Tombol --}}
                 <div class="flex items-center gap-3">
-                    
-                    {{-- Badge Status (Statik karena is_delete=0 pasti aktif) --}}
+
                     <span class="bg-red-700 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-sm border border-green-200">
                         Deleted
                     </span>
 
-                    {{-- ACTION BUTTONS (Edit & Delete) --}}
                     <div class="card">
                         <p>{{ $item->nama }}</p>
                         <form action="{{ route('item.restore', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin mengembalikan item ini?')">

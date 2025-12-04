@@ -10,7 +10,7 @@ class DetailPenyimpanan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tanggal_simpan','tanggal_kadaluarsa','status','kuantitas','item_id','lokasi_id','user_id'
+        'tanggal_simpan','tanggal_kadaluarsa','status','kuantitas','item_id','lokasi_id','user_id','foto',
     ];
 
     public function item()

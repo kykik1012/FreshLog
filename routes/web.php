@@ -15,12 +15,12 @@ Route::post('/register-process', [RegisterController::class, 'register_validate'
 // Proses Login (Action dari Form Login)
 Route::post('/login-process', [LoginController::class, 'login_validate'])->name('login.validate');
 
-// --- BAGIAN PRIVATE (Harus Login dulu) ---
+// (Harus Login dulu bang AOWKOAWKOAWKAOWKK ) ---
 Route::middleware(['auth'])->group(function () {
     
     // Route Dashboard/Beranda
     Route::get('/dashboard', function () {
-        return view('beranda'); // Pastikan nama filenya beranda.blade.php
+        return view('beranda'); 
     })->name('dashboard');
 
     // Route Logout
