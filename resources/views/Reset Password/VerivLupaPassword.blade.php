@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verifikasi Reset Password - FreshLog</title>
     
-    <!-- 1. Load Font: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- 2. Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- 3. Konfigurasi Tema FreshLog -->
+
     <script>
         tailwind.config = {
             theme: {
@@ -34,8 +31,7 @@
 <body class="h-full font-sans antialiased text-slate-800">
 
     <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
-        
-        <!-- Header Section -->
+
         <div class="sm:mx-auto sm:w-full sm:max-w-md text-center mb-8">
             <h1 class="text-3xl font-bold text-secondary">
                 FreshLog 
@@ -46,14 +42,13 @@
             <p class="mt-2 text-sm text-slate-500">
                 Masukkan kode 6 digit yang telah kami kirim ke:
             </p>
-            <!-- Menampilkan Email User dengan Badge -->
+
             <div class="mt-3 inline-flex items-center px-3 py-1 rounded-full bg-teal-50 border border-teal-100 text-teal-800 text-sm font-medium">
                 📧 {{ session('reset_email') ?? 'email@anda.com' }}
             </div>
         </div>
 
         <div class="sm:mx-auto sm:w-full sm:max-w-[450px]">
-            <!-- Card Wrapper -->
             <div class="bg-white px-6 py-10 shadow-xl shadow-secondary/5 rounded-2xl sm:px-10 border border-slate-100">
                 
                 {{-- 🟢 Alert Success --}}
@@ -92,7 +87,6 @@
                         </div>
                     </div>
 
-                    <!-- Tombol Verifikasi -->
                     <button 
                         type="submit" 
                         class="flex w-full justify-center rounded-xl bg-secondary px-3 py-3.5 text-sm font-semibold leading-6 text-primary shadow-sm hover:bg-[#002528] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
@@ -101,7 +95,6 @@
                     </button>
                 </form>
 
-                <!-- Timer / Resend Link (Opsional visual) -->
                 <div class="mt-6 text-center">
                     <p class="text-xs text-slate-400">
                         Kode berlaku selama 5 menit.
@@ -110,7 +103,7 @@
 
             </div>
 
-            <!-- Footer Link -->
+
             <div class="mt-6 text-center">
                 <a href="{{ route('password.request') }}" class="text-sm font-medium text-slate-500 hover:text-danger transition-colors flex items-center justify-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">

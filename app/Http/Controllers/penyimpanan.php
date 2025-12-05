@@ -125,6 +125,7 @@ class penyimpanan extends Controller
         if ($penyimpanan->foto && Storage::disk('public')->exists($penyimpanan->foto)) {
             Storage::disk('public')->delete($penyimpanan->foto);
         }
+
         $pathFoto = $request->file('foto')->store('penyimpanan-img', 'public');
     }
 
@@ -134,7 +135,7 @@ class penyimpanan extends Controller
         'tanggal_simpan'     => $request->tanggal_simpan,
         'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
         'kuantitas'          => $request->kuantitas,
-        'foto'               => $pathFoto,
+        'foto'               => $pathFoto, // <--- Update path
     ]);
 
     return redirect()->route('penyimpanan.index')->with('success', 'Data berhasil diperbarui!');

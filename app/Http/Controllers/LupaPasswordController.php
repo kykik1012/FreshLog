@@ -80,7 +80,7 @@ class LupaPasswordController extends Controller
     public function resetPassword(Request $request)
     {
         if (!session('reset_email') || !session('otp_verified')) {
-            return redirect()->route('Login/login')->with('error', 'Sesi habis, ulangi proses.');
+            return redirect()->route('login')->with('error', 'Sesi habis, ulangi proses.');
         }
 
         $request->validate([
@@ -98,8 +98,9 @@ class LupaPasswordController extends Controller
         $user->otp_expires_at = null;
         $user->save();
 
+
         $request->session()->forget(['reset_email', 'otp_verified']);
 
-        return redirect()->route('Login/login')->with('success', 'Password berhasil diubah! Silakan login.');
+        return redirect()->route('login')->with('success', 'Password berhasil diubah! Silakan login.');
     }
 }

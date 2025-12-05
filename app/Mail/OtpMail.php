@@ -13,7 +13,6 @@ class OtpMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    // 1. WAJIB: Definisikan variable sebagai public
     public $otp;
 
     /**
@@ -21,7 +20,6 @@ class OtpMail extends Mailable
      */
     public function __construct($otp)
     {
-        // 2. WAJIB: Masukkan data dari controller ke variable public ini
         $this->otp = $otp;
     }
 
@@ -41,8 +39,6 @@ class OtpMail extends Mailable
    public function content(): Content
 {
     return new Content(
-        // Pastikan file blade kamu namanya BENAR-BENAR 'OTP.blade.php' 
-        // dan letaknya langsung di dalam folder 'resources/views/'
         view: 'OTP', 
     );
 }

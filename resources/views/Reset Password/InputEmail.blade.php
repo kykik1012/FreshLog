@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lupa Password - FreshLog</title>
     
-    <!-- 1. Load Font: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- 2. Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- 3. Konfigurasi Tema FreshLog -->
     <script>
         tailwind.config = {
             theme: {
@@ -34,8 +31,7 @@
 <body class="h-full font-sans antialiased text-slate-800">
 
     <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
-        
-        <!-- Header Logo -->
+
         <div class="sm:mx-auto sm:w-full sm:max-w-md text-center mb-6">
             <h1 class="text-3xl font-bold text-secondary">
                 FreshLog 
@@ -49,7 +45,6 @@
         </div>
 
         <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-[480px]">
-            <!-- Card Wrapper -->
             <div class="bg-white px-6 py-10 shadow-xl shadow-secondary/5 rounded-2xl sm:px-10 border border-slate-100">
                 
                 {{-- 🔴 Alert Error --}}
@@ -81,7 +76,6 @@
                             Email Address
                         </label>
                         <div class="mt-2 relative">
-                            <!-- Icon Email (Optional Visual Enhancement) -->
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />

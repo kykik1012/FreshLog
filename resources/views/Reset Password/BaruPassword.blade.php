@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buat Password Baru - FreshLog</title>
     
-    <!-- 1. Load Font: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- 2. Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- 3. Konfigurasi Tema FreshLog -->
+
     <script>
         tailwind.config = {
             theme: {
@@ -35,7 +32,6 @@
 
     <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
         
-        <!-- Header Section -->
         <div class="sm:mx-auto sm:w-full sm:max-w-md text-center mb-8">
             <h1 class="text-3xl font-bold text-secondary">
                 FreshLog
@@ -49,7 +45,6 @@
         </div>
 
         <div class="sm:mx-auto sm:w-full sm:max-w-[450px]">
-            <!-- Card Wrapper -->
             <div class="bg-white px-6 py-10 shadow-xl shadow-secondary/5 rounded-2xl sm:px-10 border border-slate-100">
 
                 @if(session('success'))
@@ -62,7 +57,6 @@
                 <form action="{{ route('password.update') }}" method="POST" class="space-y-6">
                     @csrf
                     
-                    <!-- Password Baru -->
                     <div>
                         <label for="password" class="block text-sm font-medium leading-6 text-secondary">
                             Password Baru
@@ -96,7 +90,6 @@
                         </div>
                     </div>
 
-                    <!-- Tombol Simpan -->
                     <div>
                         <button 
                             type="submit" 
@@ -109,7 +102,6 @@
 
             </div>
 
-            <!-- Footer Link -->
             <div class="mt-8 text-center border-t border-slate-200 pt-6">
                 <a href="{{ route('login') }}" class="text-sm font-medium text-slate-500 hover:text-secondary transition-colors">
                     &larr; Batal & Kembali ke Login
