@@ -15,7 +15,7 @@
             </svg>
         </a>
         <div>
-            <h2 class="text-2xl font-bold text-theme-secondary">Riwayat Item</h2>
+            <h2 class="text-2xl font-bold text-theme-secondary">Riwayat Stok</h2>
             <p class="text-sm text-gray-500">Daftar item yang telah dihapus atau dikeluarkan.</p>
         </div>
     </div>

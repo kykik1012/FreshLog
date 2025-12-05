@@ -26,10 +26,25 @@
 
 
     <div class="flex gap-2 mb-6 overflow-x-auto hide-scrollbar pb-2">
-        <button class="px-4 py-2 rounded-full bg-secondary text-primary text-xs font-semibold whitespace-nowrap shadow-md">Semua Lokasi</button>
-        <button class="px-4 py-2 rounded-full bg-white text-gray-500 text-xs font-medium border border-gray-100 whitespace-nowrap hover:bg-gray-50">Kulkas</button>
-        <button class="px-4 py-2 rounded-full bg-white text-gray-500 text-xs font-medium border border-gray-100 whitespace-nowrap hover:bg-gray-50">Freezer</button>
-        <button class="px-4 py-2 rounded-full bg-white text-gray-500 text-xs font-medium border border-gray-100 whitespace-nowrap hover:bg-gray-50">Rak Bumbu</button>
+        {{-- Tombol "Semua Lokasi" --}}
+        <a href="{{ route('penyimpanan.index') }}" 
+           class="px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap border transition
+           {{ request('lokasi') == null 
+               ? 'bg-secondary text-primary font-semibold shadow-md border-transparent' 
+               : 'bg-white text-gray-500 border-gray-100 hover:bg-gray-50' }}">
+            Semua Lokasi
+        </a>
+
+        {{-- Looping Tombol Lokasi dari Database --}}
+        @foreach($lokasis as $loc)
+            <a href="{{ route('penyimpanan.index', ['lokasi' => $loc->nama_lokasi]) }}" 
+               class="px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap border transition
+               {{ request('lokasi') == $loc->nama_lokasi 
+                   ? 'bg-secondary text-primary font-semibold shadow-md border-transparent' 
+                   : 'bg-white text-gray-500 border-gray-100 hover:bg-gray-50' }}">
+                {{ $loc->nama_lokasi }}
+            </a>
+        @endforeach
     </div>
 
 

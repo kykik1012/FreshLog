@@ -12,19 +12,16 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    // CONTROLLER BAGIAN SETTINGS
     public function show_profile(){
         $usernow = Auth::user();
-        return view('ProfileView', compact('usernow'));
+        return view('Profile/ProfileView', compact('usernow'));
     }
 
 
 
-
-    // BAGIAN EDIT PROFILE
     public function show_edit(){
         $usernow = Auth::user();
-        return view('EditProfile', compact('usernow'));
+        return view('Profile/EditProfile', compact('usernow'));
     }
 
 
@@ -66,10 +63,8 @@ class ProfileController extends Controller
 
 
 
-
-    // BAGIAN UBAH PASSWORD
     public function show_secure(){
-        return view('EditPassword');
+        return view('Profile/EditPassword');
     }
 
 

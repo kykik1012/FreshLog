@@ -20,7 +20,7 @@ class penyimpanan extends Controller
                     ->get();
         $lokasi = Lokasi::all();
 
-        return view('TambahMakan', compact('item','lokasi'));
+        return view('Dashboard/Penyimpanan/TambahMakan', compact('item','lokasi'));
     }
 
     public function store(Request $request)
@@ -31,10 +31,9 @@ class penyimpanan extends Controller
         'tanggal_simpan'   => 'required|date',
         'tanggal_kadaluarsa' => 'required|date|after_or_equal:tanggal_simpan',
         'kuantitas'        => 'required|integer|min:1',
-        'foto'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // <--- Validasi Foto
+        'foto'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
-    // Logika Upload Foto
     $pathFoto = null;
     if ($request->hasFile('foto')) {
         $pathFoto = $request->file('foto')->store('penyimpanan-img', 'public');
@@ -46,7 +45,7 @@ class penyimpanan extends Controller
         'tanggal_simpan'     => $request->tanggal_simpan,
         'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
         'kuantitas'          => $request->kuantitas,
-        'foto'               => $pathFoto, // <--- Simpan path
+        'foto'               => $pathFoto,
         'status'             => 'Layak Makan',
         'user_id'            => Auth::id() ?? null,
     ]);
@@ -54,37 +53,45 @@ class penyimpanan extends Controller
     return redirect()->route('penyimpanan.index')->with('success', 'Data penyimpanan berhasil ditambahkan!');
 }
 
-    public function index()
-    {
-        $penyimpanans = DetailPenyimpanan::with(['item', 'lokasi'])
-            ->where('user_id', auth()->id())
-            ->where('status', 'Layak Makan')
-            ->orderBy('tanggal_kadaluarsa', 'asc')
-            ->get();
+    public function index(Request $request)
+{
+    $lokasis = Lokasi::all();
 
-        $penyimpanans->transform(function($data) {
-            $kadaluarsa = Carbon::parse($data->tanggal_kadaluarsa);
-            $hari_ini   = Carbon::now()->startOfDay();
-            
-            $sisa = $hari_ini->diffInDays($kadaluarsa, false); 
-            $sisa = (int)$sisa;
+    $query = DetailPenyimpanan::with(['item', 'lokasi'])
+        ->where('user_id', auth()->id())
+        ->where('status', 'Layak Makan');
 
-            if($sisa <= 1) {
-                $badgeColor = 'bg-red-500 text-white';
-            } elseif($sisa <= 3) {
-                $badgeColor = 'bg-yellow-500 text-white';
-            } else {
-                $badgeColor = 'bg-green-500 text-white';
-            }
-
-            $data->sisa_hari_angka = $sisa; 
-            $data->badge_color = $badgeColor;
-
-            return $data;
+    if ($request->has('lokasi') && $request->lokasi != '') {
+        $query->whereHas('lokasi', function($q) use ($request) {
+            $q->where('nama_lokasi', $request->lokasi);
         });
-
-        return view('LihatPenyimpanan', compact('penyimpanans'));
     }
+
+    $penyimpanans = $query->orderBy('tanggal_kadaluarsa', 'asc')->get();
+
+    $penyimpanans->transform(function($data) {
+        $kadaluarsa = Carbon::parse($data->tanggal_kadaluarsa);
+        $hari_ini   = Carbon::now()->startOfDay();
+        
+        $sisa = $hari_ini->diffInDays($kadaluarsa, false); 
+        $sisa = (int)$sisa;
+
+        if($sisa <= 1) {
+            $badgeColor = 'bg-red-500 text-white';
+        } elseif($sisa <= 3) {
+            $badgeColor = 'bg-yellow-500 text-white';
+        } else {
+            $badgeColor = 'bg-green-500 text-white';
+        }
+
+        $data->sisa_hari_angka = $sisa; 
+        $data->badge_color = $badgeColor;
+
+        return $data;
+    });
+
+    return view('Dashboard/Penyimpanan/LihatPenyimpanan', compact('penyimpanans', 'lokasis'));
+}
 
 
     public function edit($id)
@@ -96,7 +103,7 @@ class penyimpanan extends Controller
                     ->get();
         $lokasi = Lokasi::all();
 
-        return view('TambahMakan', compact('dataEdit', 'item', 'lokasi'));
+        return view('Dashboard/Penyimpanan/TambahMakan', compact('dataEdit', 'item', 'lokasi'));
     }
 
     public function update(Request $request, $id)
@@ -107,20 +114,17 @@ class penyimpanan extends Controller
         'tanggal_simpan'   => 'required|date',
         'tanggal_kadaluarsa' => 'required|date|after_or_equal:tanggal_simpan',
         'kuantitas'        => 'required|integer|min:1',
-        'foto'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // <--- Validasi Foto
+        'foto'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
     $penyimpanan = DetailPenyimpanan::findOrFail($id);
     
-    // Logika Update Foto
-    $pathFoto = $penyimpanan->foto; // Default pakai foto lama
+    $pathFoto = $penyimpanan->foto;
     
     if ($request->hasFile('foto')) {
-        // Hapus foto lama jika ada
         if ($penyimpanan->foto && Storage::disk('public')->exists($penyimpanan->foto)) {
             Storage::disk('public')->delete($penyimpanan->foto);
         }
-        // Upload foto baru
         $pathFoto = $request->file('foto')->store('penyimpanan-img', 'public');
     }
 
@@ -130,7 +134,7 @@ class penyimpanan extends Controller
         'tanggal_simpan'     => $request->tanggal_simpan,
         'tanggal_kadaluarsa' => $request->tanggal_kadaluarsa,
         'kuantitas'          => $request->kuantitas,
-        'foto'               => $pathFoto, // <--- Update path
+        'foto'               => $pathFoto,
     ]);
 
     return redirect()->route('penyimpanan.index')->with('success', 'Data berhasil diperbarui!');
@@ -157,7 +161,7 @@ class penyimpanan extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        return view('RiwayatPenyimpanan', compact('histories'));
+        return view('Dashboard/Penyimpanan/RiwayatPenyimpanan', compact('histories'));
     }
 
 

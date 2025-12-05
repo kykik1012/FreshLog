@@ -6,7 +6,7 @@
 @php
     $isEdit = isset($itemEdit) && $itemEdit !== null;
     $url = $isEdit ? route('item.update', $itemEdit->id) : route('item.store');
-    $title = $isEdit ? 'Edit Barang' : 'Tambah Barang Baru';
+    $title = $isEdit ? 'Edit Item' : 'Tambah Item Baru';
 @endphp
 
 
@@ -101,36 +101,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                {{-- Input Foto Barang --}}
-                <div>
-                    <label class="block text-sm font-semibold text-secondary mb-2">Foto Barang <span class="text-gray-400 font-normal text-xs">(Opsional)</span></label>
-                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-200 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-white hover:border-primary transition group overflow-hidden relative">
-                       
-                        {{-- Container untuk Icon & Text (Disembunyikan jika ada gambar) --}}
-                        <div id="placeholder-content" class="flex flex-col items-center justify-center pt-5 pb-6 {{ ($isEdit && $itemEdit->foto) ? 'hidden' : '' }}">
-                            <svg class="w-8 h-8 mb-2 text-gray-400 group-hover:text-primary transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <p class="text-sm text-gray-500 group-hover:text-gray-700"><span class="font-semibold text-secondary">Klik upload</span> atau drag & drop</p>
-                            <p class="text-xs text-gray-400 mt-1">JPEG, PNG, JPG (MAX. 2MB)</p>
-                        </div>
-
-
-                        {{-- Image Preview Tag --}}
-                        <img id="previewItemImage"
-                             src="{{ ($isEdit && $itemEdit->foto) ? asset('storage/item_photo/'.$itemEdit->foto) : '#' }}"
-                             alt="Preview"
-                             class="w-full h-full object-cover {{ ($isEdit && $itemEdit->foto) ? '' : 'hidden' }}">
-
-
-                        <input id="dropzone-file" type="file" name="foto" class="hidden" accept="image/*" />
-                    </label>
-                    @error('foto')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-
             </div>
 
 
@@ -147,31 +117,4 @@
         </form>
     </div>
 </div>
-
-
-<script>
-    const fileInput = document.getElementById('dropzone-file');
-    const previewImg = document.getElementById('previewItemImage');
-    const placeholder = document.getElementById('placeholder-content');
-
-
-    fileInput.addEventListener('change', function() {
-        const file = this.files[0];
-
-
-        if (file) {
-            const reader = new FileReader();
-
-
-            reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                previewImg.classList.remove('hidden');
-                placeholder.classList.add('hidden'); // Sembunyikan icon saat ada gambar
-            }
-
-
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
 @endsection

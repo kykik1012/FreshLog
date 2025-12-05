@@ -13,10 +13,8 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        /* Smooth scrolling */
         html { scroll-behavior: smooth; }
        
-        /* Custom Colors based on your theme */
         .bg-theme-dark { background-color: #003539; }
         .text-theme-dark { color: #003539; }
         .bg-theme-lime { background-color: #AFEE00; }
@@ -24,7 +22,6 @@
         .border-theme-lime { border-color: #AFEE00; }
 
 
-        /* Pattern Background */
         .hero-pattern {
             background-image: radial-gradient(#AFEE00 1px, transparent 1px);
             background-size: 30px 30px;
@@ -79,7 +76,7 @@
             </h1>
            
             <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-300 mb-10 font-light">
-                Aplikasi manajemen stok makanan pintar. Dapatkan notifikasi kedaluwarsa, pantau nutrisi, dan hemat pengeluaran belanja Anda.
+                Website manajemen stok makanan pintar. Dapatkan notifikasi kedaluwarsa, pantau nutrisi, dan hemat pengeluaran belanja Anda.
             </p>
 
 
@@ -104,7 +101,7 @@
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </div>
                     <div>
-                        <div class="text-3xl font-extrabold text-theme-dark">{{ $stats['total_users'] ?? '1,240' }}</div>
+                        <div class="text-3xl font-extrabold text-theme-dark">{{ $stats['total_users']}}</div>
                         <div class="text-sm text-gray-500 font-medium">Pengguna Aktif</div>
                     </div>
                 </div>
@@ -115,7 +112,7 @@
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                     </div>
                     <div>
-                        <div class="text-3xl font-extrabold text-theme-lime">{{ $stats['total_items'] ?? '54,000' }}+</div>
+                        <div class="text-3xl font-extrabold text-theme-lime">{{ $stats['total_items']}}+</div>
                         <div class="text-sm text-gray-300 font-medium">Stok Terkelola</div>
                     </div>
                 </div>
@@ -126,8 +123,8 @@
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                     <div>
-                        <div class="text-3xl font-extrabold text-theme-dark">Rp Hemat</div>
-                        <div class="text-sm text-gray-500 font-medium">Mencegah Pemborosan</div>
+                        <div class="text-3xl font-extrabold text-theme-dark">Hemat</div>
+                        <div class="text-sm text-gray-500 font-medium">Rp 100.000+</div>
                     </div>
                 </div>
 

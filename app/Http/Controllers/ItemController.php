@@ -16,7 +16,7 @@ class ItemController extends Controller
                      ->where('is_delete', 0)
                      ->get();
 
-        return view('LihatSemuaItem', compact('items'));
+        return view('Dashboard/Item/LihatSemuaItem', compact('items'));
     }
 
     public function riwayat_index()
@@ -26,7 +26,7 @@ class ItemController extends Controller
                      ->where('is_delete', 1)
                      ->get();
 
-        return view('RiwayatItem', compact('items'));
+        return view('Dashboard/Item/RiwayatItem', compact('items'));
     }
 
     public function store(Request $request)
@@ -53,7 +53,7 @@ class ItemController extends Controller
 
         $kategori = KategoriItem::all(); 
 
-        return view('TambahItem', compact('itemEdit', 'kategori'));
+        return view('Dashboard/Item/TambahItem', compact('itemEdit', 'kategori'));
     }
 
     public function update(Request $request, $id)

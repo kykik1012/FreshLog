@@ -8,9 +8,13 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LupaPasswordController;
+use App\Http\Controllers\LandingPageController;
 
 // === LOGIN (Sekarang tanpa OTP) ===
-Route::get('/', [LoginController::class, 'show_login'])->name('login'); 
+Route::get('/', [LandingPageController::class, 'index'])->name('index'); 
+
+Route::get('/login', [LoginController::class, 'show_login'])->name('login');
+
 Route::post('/login-process', [LoginController::class, 'login_validate'])->name('login.validate');
 
 // === REGISTER (Sekarang ada OTP) ===

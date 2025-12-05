@@ -11,6 +11,6 @@ class KategoriController extends Controller
 {
     $kategori = KategoriItem::all();
 
-    return view('TambahItem', compact('kategori'));
+    return view('Dashboard/Item/TambahItem', compact('kategori'));
 }
 }

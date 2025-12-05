@@ -7,11 +7,8 @@
 @php
     $isEdit = isset($dataEdit);
     $url = $isEdit ? route('penyimpanan.update', $dataEdit->id) : route('penyimpanan.store');
-    $title = $isEdit ? 'Edit Penyimpanan' : 'Tambah Stok Masuk';
+    $title = $isEdit ? 'Edit Penyimpanan' : 'Tambah Stok';
 @endphp
-
-
-
 
 <div class="max-w-3xl mx-auto">
    
@@ -21,7 +18,7 @@
         </a>
         <div>
             <h1 class="text-2xl font-bold text-secondary">{{ $title }}</h1>
-            <p class="text-sm text-gray-500">Catat barang masuk ke dapur atau kulkas.</p>
+            <p class="text-sm text-gray-500">Catat semua barang yang anda miliki .</p>
         </div>
     </div>
 

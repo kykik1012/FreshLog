@@ -6,7 +6,7 @@
 
     <div class="mb-8">
         <h1 class="text-2xl font-bold text-secondary">Profil Saya</h1>
-        <p class="text-gray-500 text-sm">Kelola informasi akun dan preferensi keamanan Anda.</p>
+        <p class="text-gray-500 text-sm">Kelola informasi akun dan keamanan akun.</p>
     </div>
 
 
@@ -31,9 +31,6 @@
 
                 <h2 class="text-xl font-bold text-darkGrey">{{ Auth::user()->name }}</h2>
                 <p class="text-sm text-gray-500 mb-1">{{ '@' . Auth::user()->username }}</p>
-                <span class="px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wide mt-2">
-                    {{ Auth::user()->role ?? 'Member' }}
-                </span>
 
 
                 <div class="grid grid-cols-2 w-full mt-6 pt-6 border-t border-gray-100">
@@ -116,20 +113,6 @@
                         <svg class="w-5 h-5 text-gray-300 group-hover:text-orange-500 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </button>
 
-
-                    <button onclick="window.location.href='{{ route('item.riwayat_index') }}'"
-                            class="w-full flex items-center justify-between p-4 rounded-xl bg-gray-50 hover:bg-green-50 transition group cursor-pointer border border-transparent hover:border-green-200">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-green-600 shadow-sm">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                            <div class="text-left">
-                                <h4 class="font-semibold text-darkGrey group-hover:text-green-700">Riwayat Barang</h4>
-                                <p class="text-xs text-gray-400">Lihat aktivitas barang keluar/masuk</p>
-                            </div>
-                        </div>
-                        <svg class="w-5 h-5 text-gray-300 group-hover:text-green-500 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
                 </div>
             </div>
 
